@@ -1,0 +1,30 @@
+---
+title: "Session One"
+output: html_document
+date: "2025-08-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Basic Commands Practical
+
+### Task 1: Creating an object that receives numbers: 1, 1.2, 1.4, ... , 4
+
+```{r}
+v1 <- seq(from=1, to=4, by=0.2) #sequence of numbers from 1 to 4 taking 0.2 steps
+v1
+```
+
+### Task 2: What does  c(rep(1, 5), rep(2, 10)) do?
+
+``` {r}
+c(rep(1, 5), rep(2, 10)) #rep repeats numbers a certain amount of times
+```
+The code creates a vector that contains repeated numbers: 1 repeated 5 times and 2 repeated 10 times
+
+### Task 3: Generate the following sequence: 1 2 3 4 5 1 2 3 4 5
+``` {r}
+rep(seq(from=1,to=5), 2)
+```
