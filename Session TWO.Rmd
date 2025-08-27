@@ -1,0 +1,125 @@
+---
+title: "Session TWO"
+output: html_document
+date: "2025-08-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+```
+
+## Data Wrangling
+
+### Task 1: Import the dataset and filter it by:
+#### A. locations Nambour and RedlandBay
+``` {r, echo=FALSE}
+example02 <-read_csv("Example-02.csv")
+```
+
+```{r}
+example02
+
+example02 |>
+  filter(loc== 'Nambour' | loc== 'RedlandBay')
+```
+
+#### B. genotypes G01, G57 and G58, location Brookstead for the year 1970
+``` {r}
+example02 |>
+  filter(gen== 'G01' | gen== 'G57' | gen== 'G58', loc== 'Brookstead', year== 1970)
+```
+
+#### C. location Lawes, yield between 2 & 3 inclusive, and oil greater than 22
+
+```{r}
+example02 |>
+  filter(loc== 'Lawes', yield >= 2, yield <= 3, oil> 22)
+```
+
+### Task 2: Import the dataset
+```{r}
+example03 <- read_excel("Example-03.xlsx")
+```
+#### A. How many observations do we have per location?
+```{r}
+example03 |>
+  group_by(loc) |>
+  summarise(n=n())
+```
+
+#### B. How many are the numeric variables? How many are non-numeric? Convert the non-numeric to factors if any
+```{r}
+sum(sapply(example03, is.numeric))
+sum(!sapply(example03, is.numeric))
+
+#Coverting non-numeric variables to factors
+example03 <- example03 |>
+  mutate_if(~ !is.numeric(.), as.factor)
+```
+
+#### C. Display the list of locations and the list of genotypes respectively
+```{r}
+#List of locations and number of locations
+locations <- example03 |>
+  distinct(loc)
+n_locations <- nrow(locations)
+n_locations
+
+#List of genotypes and number of genotypes
+genotypes <- example03 |>
+  distinct(gen)
+n_genotypes <- nrow(genotypes)
+n_genotypes
+```
+
+#### D. Display the data where the yield was less than 150?
+```{r}
+example03 |>
+  filter(yield < 150)
+```
+
+#### E. Display the mean of earht per genotype, sorted in descending order
+```{r}
+example03 |>
+  group_by(gen) |>
+  summarise(mean_earht = mean(earht, na.rm = TRUE)) |>
+  arrange(desc(mean_earht))
+```
+
+#### F. Select loc, gen, yield, flower to be saved in a new object example03.short and create a new variable by subtracting 10 days from 'flower'
+```{r}
+example03.short <- example03 |>
+  select(loc, gen, flower, yield) |>
+  mutate(flower_new= flower - 10)
+example03.short
+```
+
+### Task 3: Import the dataset
+```{r}
+example02
+```
+
+#### A. How many locations do we have per year?
+```{r}
+example02 |>
+  group_by(year) |>
+  summarise(n_loc = n_distinct(loc))
+```
+
+#### B. Compute the number of observations, min, max, mean, variance and standard deviation of size by location and year
+```{r}
+example02 |>
+  group_by(loc,year)|>
+  summarise(min_size=min(size, na.rm=TRUE), max_size=max(size, na.rm=TRUE),
+            mean_size=mean(size, na.rm=TRUE), var_size= var(size, na.rm=TRUE),
+            std_size= sd(size, na.rm=TRUE), Count=n())
+```
+
+#### C. Select all the observations where oil is greater than 20, lodging less than 3, and yield greater than 3 in the location Brookstead and sort the height in descending order
+```{r}
+example02 |>
+  filter(loc== 'Brookstead', oil> 20, lodging< 3, yield> 3) |>
+  arrange(desc(height))
+```
