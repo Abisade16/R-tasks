@@ -1,0 +1,125 @@
+---
+title: "Exercises"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+```
+
+## Abisade's first Rmarkdown notes
+
+### Exercise One
+**My name is Abisade**  
+I'm learning *Rmarkdown* and it's really cool.
+
+Here's what I plan to do:
+
+* Learn markdown basics  
+* Write R code  
+* Create plots  
+* Make tables  
+* Create equations  
+* Attach links
+
+
+My favorite quote:
+
+> "Data is the new oil" - Clive Humby
+
+### Exercise Two
+Here, I'll be writing some R codes and displaying their outputs.
+
+``` {r}
+#summary of iris dataset
+summary(iris)
+```
+
+``` {r}
+#summary of columns by Species
+iris_summary_all <- iris |>
+  group_by(Species)|>
+  summarise(
+    nSPecies=n(),
+    across(where(is.numeric), list(
+    Mean = mean,
+    SD = sd,
+    Var = var
+  )))
+iris_summary_all
+```
+
+### Exercise Three
+Here, I'll be creating some plots
+
+```{r ggplot-iris,echo=FALSE}
+#Relationship between Sepal and Petal Length by Species
+b <- ggplot(iris,aes(x=Sepal.Length,y=Petal.Length))+
+  geom_point()+
+  geom_smooth(aes(color=Species),method="lm") #Fitting a regression line for each Species
+b <- b+
+  labs(
+    title="Relationship between Sepal Length and Petal Length by Species",
+    x="Sepal Length",
+    y="Petal Length"
+  )
+b+theme_light()
+```
+
+Another one:
+```{r echo=FALSE}
+#Boxplot of Sepal Width by Species
+d <- ggplot(iris, aes(y=Sepal.Width, x=Species, fill=Species))+
+  geom_boxplot()+
+  labs( #setting labels
+    title="Boxplot of Sepal Width by Species",
+    y="Sepal Width",
+    x="Species"
+  )
+d+guides(fill="none") #creates no legend
+```
+
+### Exercise Four
+Here, I'll create tables
+
+```{r, echo=FALSE}
+kable(head(iris), caption = "First 6 rows of the Iris dataset")
+```
+
+Another one:
+
+| Column 1 | Column 2 | Column 3 |
+|:--------:|:--------:|:--------:|
+| 10       | 11       | 12       |
+| 13       | 14       | 15       |
+
+### Exercise Five
+Here, I'll create mathematical equations
+
+The formula for mean is
+
+$$
+\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i
+$$
+The standard deviation is:
+
+$$
+s = \sqrt{ \frac{1}{n - 1} \sum_{i=1}^n (x_i - \bar{x})^2 }
+$$
+
+### Execrise Six
+Here, I'll upload some images and links
+
+All of these was done in RStudio
+
+![RStudio Logo](data:image/webp;base64,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)
+
+RStudio is an IDE for R programming language
+
+![R Logo](https://www.r-project.org/logo/Rlogo.png)
+
+
+To learn more about R programming and RStuio click [here](https://www.geeksforgeeks.org/r-language/learn-r-programming/) and [here](https://en.wikipedia.org/wiki/RStudio) respectively.
