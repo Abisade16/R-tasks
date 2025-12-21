@@ -1,9 +1,10 @@
 # R-tasks
-Personal Projects Using R
+Compilation of tasks completed using R
 
-Hackerrank Exercises.R
-Contains series of tasks completed from hackerrank.com
-The tasks were originally Python tasks
+'scripts/' contains R Scripts for each task
 
-Session ONE
-Basic commands using R
+'visualisations/' contains screenshots of outputs and graphics made
+
+'outputs/' contains output files
+
+'datasets/' contains datasets used in the each task (Highly sensitive datasets aren't included)
